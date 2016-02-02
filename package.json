@@ -1,0 +1,30 @@
+{
+  "name": "desayuno_ciencia",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-socket-io": "^0.7.0",
+    "express": "^4.13.3",
+    "i": "^0.3.4",
+    "johnny-five": "^0.9.18",
+    "lodash": "^4.2.0",
+    "npm": "^3.5.3",
+    "socket.io": "^1.4.4",
+    "socket.io-client": "^1.4.4"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.3.1",
+    "gulp-uglify": "^1.5.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
