@@ -3,13 +3,13 @@
 
 ![Alt text](docs/all.jpg?raw=true "Full Setup")
 
-Desayuno con la ciencia (Breakfast with science) is an event that was made at Escuela Politécnica of Cáceres (Spain).
+Desayuna con la ciencia (Breakfast with science) is an event that that took place at the Polytechnic School of Cáceres, University of Extremadura (Spain).
 
-This proyect is just an one-day work to show childrens how sensors and Arduino works. It uses a Raspberry Pi connected to 3 different Arduino Boards. The childrens can touch the sensors and see how the values changes and others things happens. it still has hard work to be done, I will improve the project for the next events.
+This proyect is just an one-day work with the objetive of to show children how sensors and Arduino work. It uses a Raspberry Pi connected to 3 different Arduino Boards. The children can touch the sensors and see how the values changes and others things happens. it still has work to be done, I will improve the project for the next events.
 
 It uses:
 
-BackEnd:  NodeJS, johnny-five, Express and Socket.io 
+BackEnd:  NodeJS, johnny-five, Express and Socket.io
 FrontEnd: Angular, Angular-Socket-io, Bootstrap, Gulp and Browserify
 
 ##### First Board: Temperature
@@ -67,4 +67,3 @@ There is still too much things to be done:
 - Add support to uglify, sass...
 - Modularize the Angular App
 - And well, improve all the project
-
