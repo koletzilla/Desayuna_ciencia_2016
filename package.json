@@ -1,14 +1,17 @@
 {
   "name": "desayuno_ciencia",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Simple socket.io + johnny-five project",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "engines" : {
+    "node" : "~4.2.6" 
+  },
+  "author": "Jose Muñoz",
+  "license": "MIT",
   "dependencies": {
     "angular": "^1.4.8",
     "angular-socket-io": "^0.7.0",

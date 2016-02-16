@@ -13,6 +13,10 @@ var app = angular.module('app', ['btford.socket-io'])
 
   .controller('MainController', function($scope,mySocket) {
 
+    /**************************
+      First Board: Temperature
+    ***************************/
+
     mySocket.on('temperatura:valor', function(data){
       $scope.valorTemp = data;
     });
@@ -37,7 +41,10 @@ var app = angular.module('app', ['btford.socket-io'])
 
     });
 
-    //luz
+    /**************************
+      Second Board: Light
+    ***************************/
+
     mySocket.on('luz:array', function(data){
             console.log("act")
 
@@ -55,8 +62,10 @@ var app = angular.module('app', ['btford.socket-io'])
       $scope.luz = data;
     });
 
-    //Proximity
-
+    /**************************
+      Third Board: Proximity
+    ***************************/
+    
     mySocket.on('prox:array', function(data){
       $scope.valorProx = data;
 

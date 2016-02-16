@@ -7,20 +7,27 @@ var five    = require("johnny-five");
 // Static files
 app.use(express.static(__dirname + '/public'));
 
-// Configuración johnny-five
+// Config johnny-five
 var ports = [
-  { id: "temp", port: "/dev/tty.usbmodem14241" }
-  //{ id: "luz", port: "/dev/tty.usbmodem14211" },
-  //{ id: "prox", port: "/dev/tty.wchusbserial14220" }
+  { id: "temp", port: "/dev/tty.usbmodem14241" },
+  { id: "luz", port: "/dev/tty.usbmodem14231" },
+  { id: "prox", port: "/dev/tty.wchusbserial14220" }
 ];
 
+// Boards connection
 var board = new five.Boards(ports)
+// Containers
 var temperatura = {};
 var luz = {};
 var prox = {};
 
 board.on("ready", function() {
 
+  /**************************
+    First Board: Temperature
+  ***************************/
+
+  // Init
   temperatura.led2 = new five.Led({
     pin: 2,
     board: this.byId('temp')
@@ -46,14 +53,14 @@ board.on("ready", function() {
   temperatura.tempInicial;
   temperatura.reset = true;
 
+  // On data update, take the average of 10 samples.
   temperatura.tmp36.on("data", function() {
     tempmedia = tempmedia + this.celsius;
     cont++;
     if(cont == 10){
       tempmedia = tempmedia/10
       io.sockets.emit('temperatura:valor', tempmedia.toFixed(2));
-      //console.log(tempmedia.toFixed(2) + "°C")
-      // Reset
+
       if(temperatura.reset){
         temperatura.tempInicial = tempmedia.toFixed(2);
         io.sockets.emit('temperatura:inicial', temperatura.tempInicial);
@@ -62,50 +69,42 @@ board.on("ready", function() {
       }
       if(parseFloat(tempmedia) < parseFloat(temperatura.tempInicial) +2){
         temperatura.led2.off();
-        //io.sockets.emit('temperatura:led', {led: 1, act: false});
         temperatura.led3.off();
-        //io.sockets.emit('temperatura:led', {led: 2, act: false});
         temperatura.led4.off();
-        //io.sockets.emit('temperatura:led', {led: 3, act: false});
         io.sockets.emit('temperatura:led', {power: [false,false,false]});
       }else{
         if(parseFloat(tempmedia) < parseFloat(temperatura.tempInicial) +3){
           temperatura.led2.on();
-          //io.sockets.emit('temperatura:led', {led: 1, act: true});
           temperatura.led3.off();
-          //io.sockets.emit('temperatura:led', {led: 2, act: false});
           temperatura.led4.off();
-          //io.sockets.emit('temperatura:led', {led: 3, act: false});
           io.sockets.emit('temperatura:led', {power: [true,false,false]});
         }else{
           if(parseFloat(tempmedia) < parseFloat(temperatura.tempInicial) +4){
             temperatura.led2.on();
-            //io.sockets.emit('temperatura:led', {led: 1, act: true});
             temperatura.led3.on();
-            //io.sockets.emit('temperatura:led', {led: 2, act: true});
             temperatura.led4.off();
-            //io.sockets.emit('temperatura:led', {led: 3, act: false});
             io.sockets.emit('temperatura:led', {power: [true,true,false]});
           }else{
             if(parseFloat(tempmedia) < parseFloat(temperatura.tempInicial) +5){
               temperatura.led2.on();
-              //io.sockets.emit('temperatura:led', {led: 1, act: true});
               temperatura.led3.on();
-              //io.sockets.emit('temperatura:led', {led: 2, act: true});
               temperatura.led4.on();
-              //io.sockets.emit('temperatura:led', {led: 3, act: true});
               io.sockets.emit('temperatura:led', {power: [true,true,true]});
             }
           }
         }
       }
-      //Fin
+      //END
       tempmedia = 0;
       cont = 0;
     }
   });
 
-/*
+  /**************************
+    Second Board: Light
+  ***************************/
+
+  // Init
   luz.res1 = new five.Sensor({
     pin: "A0",
     board: this.byId('luz'),
@@ -130,7 +129,6 @@ board.on("ready", function() {
       }
     });
 
-
   // "data" get the current reading from the photoresistor
   luz.res1.scale(0, 255).on("data", function() {
     luz.res1value = this.value;
@@ -138,13 +136,19 @@ board.on("ready", function() {
   luz.res2.scale(0, 255).on("data", function() {
     luz.res2value = this.value;
   });
+
+  //Use the update of the third sensor to send the data through the websocket
   luz.res3.scale(0, 255).on("data", function() {
     luz.res3value = this.value;
     luz.led.color({red: luz.res1value, blue: luz.res2value, green: luz.res3value})
     io.sockets.emit('luz:array', {red: luz.res1value, blue: luz.res2value, green: luz.res3value});
-    //console.log(luz.res1value + " " + luz.res2value + " " + luz.res3value)
   });
 
+  /**************************
+    Third Board: Proximity
+  ***************************/
+
+  // Init
   prox.sens1 = new five.Proximity({
     controller: "HCSR04",
     board: this.byId('prox'),
@@ -157,6 +161,7 @@ board.on("ready", function() {
     pin: 4
   });
 
+  // too much noise, calculate the average of 10 samples
   var proxmed1 = 0;
   var proxcont1 = 0;
   prox.sens1.on("data", function() {
@@ -164,13 +169,13 @@ board.on("ready", function() {
     proxcont1++;
     if(proxcont1 == 10){
       proxmed1 = proxmed1/10
-      //console.log("1: " + proxmed1.toFixed(2))
       prox.sens1value = proxmed1
       proxcont1 = 0
       proxmed1 = 0
     }
   });
 
+  // same average
   var proxmed2 = 0;
   var proxcont2 = 0;
   prox.sens2.on("data", function() {
@@ -178,7 +183,6 @@ board.on("ready", function() {
     proxcont2++;
     if(proxcont2 == 10){
       proxmed2 = proxmed2/10
-      //console.log("2: " + proxmed2.toFixed(2))
       prox.sens2value = proxmed2
       io.sockets.emit('prox:array', {prox1: prox.sens1value.toFixed(2) ,prox2:prox.sens2value.toFixed(2)});
       proxcont2 = 0
@@ -187,24 +191,14 @@ board.on("ready", function() {
 
   });
 
-
-*/
 });
 
-//io
+//Init of websocket connection
 io.on('connection', function (socket) {
     console.log(socket.id);
 
     socket.on('temperatura:reset', function (data) {
       temperatura.reset = true;
-    });
-
-    socket.on('led:on', function (data) {
-       console.log('LED ON RECEIVED');
-    });
-
-    socket.on('led:off', function (data) {
-        console.log('LED OFF RECEIVED');
     });
 
     socket.emit('temperatura:inicial', temperatura.tempInicial);
