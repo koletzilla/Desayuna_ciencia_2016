@@ -1,7 +1,7 @@
 #Desayuno con la ciencia - 22/01/2016
 - - -
 
-
+![Alt text](docs/all.jpg?raw=true "Full Setup")
 
 Desayuno con la ciencia (Breakfast with science) is an event that was made at Escuela Politécnica of Cáceres (Spain).
 
@@ -28,7 +28,13 @@ The second board has 3 photoresistors and a tricolor led. Each photoresistor con
 
 ![Alt text](docs/ThirdOne.jpg?raw=true "Third One")
 
-The third board have two HCSR04 sensors
+The third board have two HCSR04 sensors. In the display we can see the distance en centimetres.
+
+### Web
+
+Its a simple AngularJS SPA with Bootstrap.
+
+![Alt text](docs/web.png?raw=true "Third One")
 
 ### Installation
 
