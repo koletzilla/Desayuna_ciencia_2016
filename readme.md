@@ -9,8 +9,9 @@ This proyect is just an one-day work with the objetive of to teach children how 
 
 It uses:
 
-BackEnd:  NodeJS, johnny-five, Express and Socket.io
-FrontEnd: Angular, Angular-Socket-io, Bootstrap, Gulp and Browserify
+BackEnd:  NodeJS, johnny-five, Express and Socket.io.
+
+FrontEnd: Angular, Angular-Socket-io, Bootstrap, Gulp and Browserify.
 
 ##### First Board: Temperature
 
