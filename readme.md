@@ -5,7 +5,7 @@
 
 Desayuna con la ciencia (Breakfast with science) is an event that that took place at the Polytechnic School of Cáceres, University of Extremadura (Spain).
 
-This proyect is just an one-day work with the objetive of to show children how sensors and Arduino work. It uses a Raspberry Pi connected to 3 different Arduino Boards. The children can touch the sensors and see how the values changes and others things happens. it still has work to be done, I will improve the project for the next events.
+This proyect is just an one-day work with the objetive of to teach children how sensors and Arduino work. It uses a Raspberry Pi connected to 3 different Arduino Boards. The children can touch the sensors and see how the values changes and others things happens. it still has work to be done, I will improve the project for the next events.
 
 It uses:
 
